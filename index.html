@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 320px;
+      text-align: center;
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .login-container input {
+      width: 90%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .login-container input:focus {
+      border-color: #2575fc;
+      box-shadow: 0 0 8px rgba(37, 117, 252, 0.5);
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #2575fc;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-container button:hover {
+      background: #6a11cb;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Masuk</button>
+      <p class="error" id="errorMsg"></p>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const errorMsg = document.getElementById("errorMsg");
+
+    // Daftar akun (11 akun: 1 admin + 10 tambahan)
+    const accounts = [
+      { username: "admin", password: "1234" },
+      { username: "Zahraaimupp", password: "Zahraalupplupp" },
+      { username: "user2", password: "pass2" },
+      { username: "user3", password: "pass3" },
+      { username: "user4", password: "pass4" },
+      { username: "user5", password: "pass5" },
+      { username: "user6", password: "pass6" },
+      { username: "user7", password: "pass7" },
+      { username: "user8", password: "pass8" },
+      { username: "user9", password: "pass9" },
+      { username: "user10", password: "pass10" }
+    ];
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // cek apakah akun ada
+      const found = accounts.find(acc => acc.username === username && acc.password === password);
+
+      if (found) {
+        alert("Login berhasil!");
+        window.location.href = "dash.html"; // arahkan ke halaman lain
+      } else {
+        errorMsg.textContent = "Username atau password salah!";
+      }
+    });
+  </script>
+</body>
+</html>
