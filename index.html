@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Elegan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: radial-gradient(circle at top, #1e1e2f, #0a0a0f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      transition: 0.3s;
+    }
+
+    .login-container:hover {
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(45deg, #6a5acd, #00bcd4);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(45deg, #00bcd4, #6a5acd);
+    }
+
+    /* Loading Screen */
+    .loading {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.4s;
+    }
+
+    .loading.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .spinner {
+      border: 5px solid rgba(255,255,255,0.2);
+      border-top: 5px solid #00bcd4;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Video Container */
+    .video-container {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none; /* agar tidak bisa diklik / pause */
+    }
+
+  </style>
+</head>
+<body>
+  <div class="login-container" id="loginBox">
+    <h2>Selamat Datang</h2>
+    <input type="text" id="username" placeholder="Nama pengguna" />
+    <input type="password" id="password" placeholder="Kata sandi" />
+    <button onclick="login()">Masuk</button>
+  </div>
+
+  <div class="loading" id="loadingScreen">
+    <div class="spinner"></div>
+    <p style="margin-top: 20px;">Memuat...</p>
+  </div>
+
+  <div class="video-container" id="videoScreen">
+    <video id="introVideo">
+      <source src="https://files.catbox.moe/dbl9pw.mp4" type="video/mp4">
+      Browser kamu tidak mendukung video tag.
+    </video>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username.trim() === "" || password.trim() === "") {
+        alert("Isi semua kolom terlebih dahulu!");
+        return;
+      }
+
+      // Sembunyikan form, tampilkan loading
+      document.getElementById("loginBox").style.display = "none";
+      const loadingScreen = document.getElementById("loadingScreen");
+      loadingScreen.classList.add("active");
+
+      // Setelah 3 detik, tampilkan video dengan suara
+      setTimeout(() => {
+        loadingScreen.classList.remove("active");
+        const videoContainer = document.getElementById("videoScreen");
+        const video = document.getElementById("introVideo");
+
+        videoContainer.style.display = "block";
+        video.muted = false; // aktifkan suara
+        video.play();        // mulai video
+      }, 3000);
+    }
+
+    // Cegah video dijeda atau dimute
+    const video = document.getElementById("introVideo");
+    video.addEventListener('pause', () => video.play());
+    video.addEventListener('volumechange', () => {
+      if (video.muted) video.muted = false;
+      if (video.volume < 1) video.volume = 1;
+    });
+  </script>
+</body>
+</html>
